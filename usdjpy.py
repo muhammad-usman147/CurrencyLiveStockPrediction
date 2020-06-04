@@ -12,6 +12,7 @@ import pandas as pd
 import math
 import sklearn
 import sklearn.preprocessing
+from sklearn.externals import joblib
 import datetime
 import os
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ import tensorflow as tf
 def predictUsdJpy(opens,low,high,close):
     valid_set_size_percentage = 10 
     test_set_size_percentage = 10
-    path = 'C:/Users/Modi/Desktop/AllCodingCodes/API/'
+    path = 'C:/Users/Modi/Desktop/AllCodingCodes/CurrencyLiveStockPrediction/'
     df = pd.read_csv(path+"USDJPY.csv", index_col = 0)
     df.head()
 
@@ -41,4 +42,8 @@ def predictUsdJpy(opens,low,high,close):
     clf.fit(X_train, y_train)
     confidence = clf.score(X_test, y_test)
     print(confidence)
+    # now you can save it to a file
+    joblib.dump(clf, path+'usdjpy.pkl') 
+    # and later you can load it
+    clf = joblib.load(path+'usdjpy.pkl')
     return clf.predict(np.array([[opens, low, high, close]]))

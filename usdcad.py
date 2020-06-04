@@ -12,12 +12,12 @@ import pandas as pd
 import math
 import sklearn
 import sklearn.preprocessing
+from sklearn.externals import joblib
 import datetime
 import os
 import matplotlib.pyplot as plt
-import tensorflow as tf
-def predict(opens,low,high,close):
-    path = 'C:/Users/Modi/Desktop/AllCodingCodes/API/'
+def predictusdcad(opens,low,high,close):
+    path = 'C:/Users/Modi/Desktop/AllCodingCodes/CurrencyLiveStockPrediction/'
     valid_set_size_percentage = 10 
     test_set_size_percentage = 10
 
@@ -41,6 +41,10 @@ def predict(opens,low,high,close):
     clf = LinearRegression(n_jobs=-1)
     clf.fit(X_train, y_train)
     confidence = clf.score(X_test, y_test)
+    # now you can save it to a file
+    joblib.dump(clf,path+ 'usdcad.pkl') 
+    # and later you can load it
+    clf = joblib.load(path+'usdcad.pkl')
     return clf.predict(np.array([[opens, low, high, close]]))
 
 
